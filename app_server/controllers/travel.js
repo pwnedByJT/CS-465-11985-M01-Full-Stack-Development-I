@@ -1,8 +1,8 @@
-var fs = require('fs');
-var trips = JSON.parse(fs.readFileSync('./data/trips.json', 'utf8'));
+const tripsModel = require('../models/travlr');
 
 /* GET travel view */
-const travel = (req, res) => {
+const travel = async (req, res) => {
+    const trips = await tripsModel.find({});
     res.render('travel', { title: 'Travlr Getaways', trips });
 };
 
