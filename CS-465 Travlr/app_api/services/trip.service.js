@@ -1,44 +1,36 @@
 const mongoose = require('mongoose');
 const Trip = mongoose.model('trips');
 
-// GET all trips
-const listTrips = async () => {
-    return await Trip.find({}).exec();
-};
+class TripService {
+    /**
+     * ENHANCEMENT: Algorithms & Data Structures
+     * Uses a skip/limit algorithm to optimize data retrieval to O(k).
+     */
+    async listTrips(limit, skip, sortBy, order) {
+        return await Trip
+            .find({})
+            .sort({ [sortBy]: order })
+            .limit(limit)
+            .skip(skip)
+            .exec();
+    }
 
-// GET a single trip by code
-const findTrip = async (tripCode) => {
-    return await Trip.findOne({ 'code': tripCode }).exec();
-};
+    // SOFTWARE DESIGN: Service Layer Methods (Encapsulated)
+    async findTrip(tripCode) {
+        return await Trip.findOne({ 'code': tripCode }).exec();
+    }
 
-// POST a new trip
-const addTrip = async (data) => {
-    return await Trip.create({
-        code: data.code,
-        name: data.name,
-        length: data.length,
-        start: data.start,
-        resort: data.resort,
-        perPerson: data.perPerson,
-        image: data.image,
-        description: data.description
-    });
-};
+    async addTrip(data) {
+        return await Trip.create(data);
+    }
 
-// PUT (update) an existing trip
-const updateTrip = async (tripCode, data) => {
-    return await Trip.findOneAndUpdate({ 'code': tripCode }, data, { new: true }).exec();
-};
+    async updateTrip(tripCode, data) {
+        return await Trip.findOneAndUpdate({ 'code': tripCode }, data, { new: true }).exec();
+    }
 
-// DELETE a trip
-const deleteTrip = async (tripCode) => {
-    return await Trip.findOneAndDelete({ 'code': tripCode }).exec();
-};
+    async deleteTrip(tripCode) {
+        return await Trip.findOneAndDelete({ 'code': tripCode }).exec();
+    }
+}
 
-module.exports = {
-    listTrips,
-    findTrip,
-    addTrip,
-    updateTrip,
-    deleteTrip
-};
+module.exports = new TripService(); // Exporting the class instance
