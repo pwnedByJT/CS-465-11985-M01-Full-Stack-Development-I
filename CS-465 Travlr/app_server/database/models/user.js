@@ -13,6 +13,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
     hash: String,
     salt: String
 });
@@ -36,6 +41,7 @@ userSchema.methods.generateJwt = function() {
        _id: this._id,
        email: this.email,
        name: this.name,
+       role: this.role,
        exp: parseInt(expiry.getTime() / 1000, 10),
     }, process.env.JWT_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
