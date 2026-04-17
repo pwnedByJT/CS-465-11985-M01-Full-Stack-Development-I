@@ -1,15 +1,16 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "ignoreDeprecations": "5.0",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2015",
-    "moduleResolution": "node",
+    "module": "CommonJS", 
+    "moduleResolution": "node", 
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2017",
+    "allowJs": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -17,5 +18,9 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

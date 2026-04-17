@@ -8,6 +8,9 @@ const auth = jwt({
     algorithms: ["HS256"],
   });
 
+// SECURITY ENHANCEMENT: Import authorize middleware for role-based access control
+const authorize = require('../middleware/authorize');
+
 const authController = require('../controllers/authentication')
 const tripsController = require('../controllers/trips');
 
@@ -26,13 +29,13 @@ router
 router
     .route('/trips')
     .get(tripsController.getAllTrips)
-    .post(auth, tripsController.tripsAddTrip);
+    .post(auth, authorize, tripsController.tripsAddTrip);
 
 router
     .route('/trip/:tripCode')
     .get(tripsController.getTripByCode)
-    .put(auth, tripsController.tripsUpdateTrip)
-    .delete(auth, tripsController.tripsDeleteTrip);
+    .put(auth, authorize, tripsController.tripsUpdateTrip)
+    .delete(auth, authorize, tripsController.tripsDeleteTrip);
 
 router.route("/trips/:tripCode").get(tripsController.tripsFindCode);
 
